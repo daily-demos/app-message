@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily App Message Demo</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+   
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/header.css" />
+
+    <link rel="shortcut icon" href="./assets/favicon.ico" />
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <div class="left-header">
+            <img
+              src="./assets/daily.svg"
+              class="daily-logo"
+              alt="Daily logo reads Daily"
+            />
+            <strong>
+              <p class="header-title">Daily demo</p>
+            </strong>
+          </div>
+          <div class="right-header">
+            <a
+              href="https://docs.daily.co/reference"
+              target="_blank"
+              class="link"
+            >
+              <button class="button docs-button white-button">
+                API docs
+                <img
+                  class="arrow-icon"
+                  src="./assets/new-tab-icon.png"
+                  alt="Arrow icon points up and to the right"
+                  aria-hidden="true"
+                />
+              </button>
+            </a>
+            <span class="divider"></span>
+            <a href="https://github.com/daily-demos/boilerplate-vanilla-js/" target="_blank">
+              <img
+                class="octocat"
+                src="./assets/github.png"
+                alt="GitHub logo Octocat"
+              />
+            </a>
+          </div>
+        </div>
+      </header>
+        <noscript>
+          This application requires JavaScript to run. Please enable JavaScript in your browser.
+        </noscript>
+        <div id="container">
+      <div id="lobby">
+        <form id="enterCall">
+          <input
+            type="url"
+            id="roomURL"
+            placeholder="Enter room URL..."
+            required
+          />
+          <button type="submit">Join existing room</button>
+        </form>
+
+          or
+          <button type="submit" id="createRoomBtn">Create random room</button>
+      </div>
+      <div id="incall" class="hidden">
+        <div id="callframe"></div>
+        <div id="message">
+          <h3>Messages</h3>
+          <div id="content"></div>
+          <div id="recipient">
+            <label for="participants">Choose a participant:</label>
+            <select name="participants" id="participants">
+              <option value="*">All</option>
+            </select>
+          </div>
+          <button id="serverBtn">Broadcast from server</button>
+          <button id="clientBtn">Broadcast from client</button>
+          <p><sup><b>Note:</b> Broadcasting to "All" from a client will <em>not</em> broadast to the sending participant!</sup></p>
+          <div id="invite">
+            Invite URL: <input id="inviteURL"></div>
+          </div>
+        </div>
+     </div>
+        </div>
+      <script src="./bundle.js"></script>
+</body>
+</html>
