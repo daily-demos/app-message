@@ -1,6 +1,6 @@
 # Daily App Message demo
 
-A demo showing various ways to send data to video call participants with Daily's [`"app-message"` events](https://docs.daily.co/reference/daily-js/events/participant-events#app-message).
+This is a demo showing various ways to send data to video call participants with Daily's [`"app-message"` events](https://docs.daily.co/reference/daily-js/events/participant-events#app-message).
 
 ![Demo screenshot description](./screenshot.png)
 
