@@ -12,16 +12,23 @@ import { setupCreateCallHandler, setupJoinRoomHander } from './controls';
 import { showCall } from './views';
 
 window.addEventListener('DOMContentLoaded', () => {
-  const usp = new URLSearchParams(window.location.search);
-  const params = Object.fromEntries(usp.entries());
+  // We set this up even if the user is joining a call,
+  // because when they leave they'll be taken back to
+  // the lobby to create one.
   setupCallCreation();
 
+  // Check if the query parameters contain a room URL
+  // and join the call if so.
+  const usp = new URLSearchParams(window.location.search);
+  const params = Object.fromEntries(usp.entries());
   if (params.roomURL) {
     joinRoom(params.roomURL);
     showCall();
   }
 });
 
+// setupCallCreation() sets up the call join and creation
+// handlers.
 function setupCallCreation() {
   setupJoinRoomHander((roomURL) => {
     goToJoin(roomURL);
@@ -34,11 +41,14 @@ function setupCallCreation() {
   });
 }
 
+// goToJoin() redirects the user to this page with the
+// roomURL query parameter, which triggers a call join.
 function goToJoin(roomURL: string) {
   const url = `${window.location.origin}?roomURL=${roomURL}`;
   window.location.href = url;
 }
 
+// createRoom() creates a Daily room in a Netlify function.
 async function createRoom(): Promise<string> {
   const url = `/.netlify/functions/room`;
   const errMsg = 'failed to create room';
@@ -54,7 +64,6 @@ async function createRoom(): Promise<string> {
       throw new Error(msg);
     }
 
-    // Return what we expect to be a token (additional validation to come)
     const data = await res.text();
     return data;
   } catch (e) {

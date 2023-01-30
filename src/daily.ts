@@ -9,10 +9,11 @@ import {
   addSelectableRecipient,
   getSelectedRecipients as getSelectedRecipient,
   populateInviteURL,
-  removeAllRecipients,
+  removeAllSelectableRecipients,
   removeSelectableRecipient,
   setupClientMsgHandler,
   setupServerMsgHandler,
+  updateSelectableRecipient,
 } from './controls';
 import { showLobby } from './views';
 
@@ -33,6 +34,7 @@ export function joinRoom(roomURL: string) {
     })
     .on('participant-joined', handleParticipantJoined)
     .on('participant-left', handleParticipantLeft)
+    .on('participant-updated', handleParticipantUpdated)
     .on('error', (ev) => {
       console.error('Fatal error:', ev?.errorMsg);
     })
@@ -114,12 +116,12 @@ function handleJoinedMeeting(call: DailyCall, roomURL: string) {
   populateInviteURL(roomURL);
   setupClientMsgHandler(() => {
     const recipient = getSelectedRecipient();
-    call.sendAppMessage({
-      data: {
+    call.sendAppMessage(
+      {
         recipient,
       },
-      to: recipient,
-    });
+      recipient
+    );
   });
 
   const roomName = roomURLToName(roomURL);
@@ -129,12 +131,18 @@ function handleJoinedMeeting(call: DailyCall, roomURL: string) {
 }
 
 function handleLeftMeeting(call: DailyCall) {
-  removeAllRecipients();
+  removeAllSelectableRecipients();
   // Destroy the call frame to make sure we don't
   // get multiple call objects in the window.
   call.destroy().then(() => {
     showLobby();
   });
+}
+
+function handleParticipantUpdated(ev?: DailyEventObjectParticipant) {
+  if (!ev) return;
+  const p = ev.participant;
+  updateSelectableRecipient(p.user_name, p.session_id);
 }
 
 function roomURLToName(url: string): string {
