@@ -2,9 +2,9 @@ import { Handler } from '@netlify/functions';
 import axios from 'axios';
 import dailyAPIUrl from './util';
 
-// This handler retrieves the latest ongoing meeting session
-// data, if any.
-// https://docs.daily.co/reference/rest-api/meetings
+// This handler sends an `"app-message"` even to
+// the specified room name and participant(s).
+// https://docs.daily.co/reference/rest-api/rooms/send-app-message
 const handler: Handler = async (event, _context) => {
   const apiKey = process.env.DAILY_API_KEY;
   if (!apiKey) {
@@ -25,9 +25,10 @@ const handler: Handler = async (event, _context) => {
     };
   }
 
+  // The recipient parameter is optional. The default
+  // will send a message to all participants.
   const recipient = params?.to;
 
-  // Send app message to given room
   try {
     await sendAppMessage(apiKey, roomName, recipient);
     return {
@@ -52,9 +53,8 @@ async function sendAppMessage(
   // Prepare request body.
   // We include the recipient twice because the property
   // in "data" will be accessible through the `"app-message"`
-  // event payload. The recipient can use it to can tailor
-  // their message handling based on whether
-  // they were the only recipient.
+  // event payload. The recipient can use it to tailor their
+  // message handling based on whether they were the only recipient.
   const req = {
     data: {
       recipient,
@@ -63,7 +63,7 @@ async function sendAppMessage(
   };
   const data = JSON.stringify(req);
 
-  // Prepare headers, containing Daily API key
+  // Prepare headers containing Daily API key
   const headers = {
     Authorization: `Bearer ${apiKey}`,
     'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ async function sendAppMessage(
   const res = await axios.post(url, data, { headers });
   if (res.status !== 200 || !res.data) {
     console.error(
-      'unexpected app message endpoint response:',
+      'Unexpected app message endpoint response:',
       res.status,
       res.data
     );

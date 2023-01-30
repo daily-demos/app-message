@@ -11,9 +11,8 @@ interface DailyRoomData {
   url: string;
 }
 
-// This handler retrieves the latest ongoing meeting session
-// data, if any.
-// https://docs.daily.co/reference/rest-api/meetings
+// This handler creates a Daily room with a random name.
+// https://docs.daily.co/reference/rest-api/rooms/create-room
 const handler: Handler = async (_event, _context) => {
   const apiKey = process.env.DAILY_API_KEY;
   if (!apiKey) {
@@ -39,15 +38,13 @@ const handler: Handler = async (_event, _context) => {
   }
 };
 
-// getActiveMeetingSession() uses Daily's REST API to get information about the latest
-// active meeting session in a given Daily room. It will return either an empty
-// JSON object, or an object containing active session information.
+// createRoom() uses Daily's REST API to create a Daily room.
 async function createRoom(apiKey: string): Promise<string> {
   // Prepare room properties. Participants will start with
-  // mics and cams off, and the room will expire in 24 hours.
+  // mics and cams off, and the room will expire in 1 hour.
   const req = {
     properties: {
-      exp: Math.floor(Date.now() / 1000) + 86400,
+      exp: Math.floor(Date.now() / 1000) + 3600,
       start_audio_off: true,
       start_video_off: true,
       enable_prejoin_ui: false,
@@ -64,7 +61,6 @@ async function createRoom(apiKey: string): Promise<string> {
   const data = JSON.stringify(req);
 
   const roomErrMsg = 'failed to create room';
-
   const res = await axios.post(url, data, { headers }).catch((error) => {
     console.error(roomErrMsg, res);
     throw new Error(`${roomErrMsg}: ${error})`);
@@ -76,7 +72,6 @@ async function createRoom(apiKey: string): Promise<string> {
   }
   // Cast Daily's response to our room data interface.
   const roomData = <DailyRoomData>res.data;
-
   return roomData.url;
 }
 // eslint-disable-next-line import/prefer-default-export
