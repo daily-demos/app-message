@@ -15,14 +15,14 @@ The demo allows you to either join an existing Daily room or create a new one at
 - The client-side broadcasting of an `"app-message"` event is done using a [`sendAppMessage()`](https://docs.daily.co/reference/daily-js/instance-methods/send-app-message) Daily instance method.
 - The server-side broadcasting of an `"app-message"` event is done using a POST request to Daily's [`/rooms/:name/send-app-message`](https://docs.daily.co/reference/rest-api/rooms/send-app-message) REST API endpoint.
 
-The server-side POST request is made through a [Netlify function](https://docs.netlify.com/functions/overview/), but the logic of the request would be the same with other stateless functions (like AWS Lambda) or a more traditional server implementation.
+The server-side POST request is instrumented through a [Netlify function](https://docs.netlify.com/functions/overview/), but the logic of the request would be the same with other stateless functions (like AWS Lambda) or a more traditional server implementation.
 
 ## Running locally
 
-1. `git clone REPO`
-1. Copy `example.env` into a file called `.env``
-1. Paste your [Daily API key](https://dashboard.daily.co/developers) into the `DAILY_API_KEY` variable in the `.env` file. Do _not_ commit this file to source control!
+1. `git clone git@github.com:daily-demos/app-message.git`
 1. `cd app-message`
+1. Copy `example.env` into a file called `.env`
+1. Paste your [Daily API key](https://dashboard.daily.co/developers) into the `DAILY_API_KEY` variable in the `.env` file. Do _not_ commit this file to source control!
 1. `npm i && npm run dev`
 
 ## Contributing and feedback
