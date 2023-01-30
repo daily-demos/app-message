@@ -1,21 +1,21 @@
 {
-  "name": "daily-demo-boilerplate-ts",
+  "name": "daily-app-message",
   "version": "1.0.0",
-  "description": "A TypeScript boilerplate template repository for Daily demos",
+  "description": "A TypeScript demo showing different ways to send Daily `'app-message'` events.",
   "scripts": {
     "build": "webpack --mode=production",
     "start": "http-server ./dist/ -c-1",
     "lint": "eslint src/ netlify/",
     "fix": "eslint src/ netlify/ --fix",
     "test": "jest",
-    "dev": "sh ./dev.sh"
+    "dev": "build && sh ./dev.sh"
   },
   "author": "",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/daily-demos/boilerplate-typescript/issues"
+    "url": "https://github.com/daily-demos/app-message/issues"
   },
-  "homepage": "https://github.com/daily-demos/boilerplate-typescript#readme",
+  "homepage": "https://github.com/daily-demos/app-message#readme",
   "devDependencies": {
     "@types/jest": "^29.2.6",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
