@@ -5,8 +5,8 @@
   "scripts": {
     "build": "webpack --mode=production",
     "start": "http-server ./dist/ -c-1",
-    "lint": "eslint src/",
-    "fix": "eslint src/ --fix",
+    "lint": "eslint src/ netlify/",
+    "fix": "eslint src/ netlify/ --fix",
     "test": "jest",
     "dev": "sh ./dev.sh"
   },
@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/daily-demos/boilerplate-typescript#readme",
   "devDependencies": {
-    "@netlify/functions": "^1.4.0",
     "@types/jest": "^29.2.6",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
@@ -41,6 +40,7 @@
   },
   "dependencies": {
     "@daily-co/daily-js": "^0.37.0",
+    "@netlify/functions": "^1.4.0",
     "axios": "^1.2.3"
   }
 }

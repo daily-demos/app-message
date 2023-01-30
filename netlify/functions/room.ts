@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions';
 import axios from 'axios';
-import { dailyAPIUrl } from './util';
+import dailyAPIUrl from './util';
 
 // The data we'll expect to get from Daily on room creation.
 // Daily actually returns much more data, but these are the only
@@ -14,7 +14,7 @@ interface DailyRoomData {
 // This handler retrieves the latest ongoing meeting session
 // data, if any.
 // https://docs.daily.co/reference/rest-api/meetings
-const handler: Handler = async (event, _context) => {
+const handler: Handler = async (_event, _context) => {
   const apiKey = process.env.DAILY_API_KEY;
   if (!apiKey) {
     console.error('Daily API key is missing');
@@ -35,16 +35,14 @@ const handler: Handler = async (event, _context) => {
     return {
       statusCode: 500,
       body: String(e),
-    }
+    };
   }
 };
 
 // getActiveMeetingSession() uses Daily's REST API to get information about the latest
 // active meeting session in a given Daily room. It will return either an empty
 // JSON object, or an object containing active session information.
-async function createRoom(
-  apiKey: string,
-): Promise<string> {
+async function createRoom(apiKey: string): Promise<string> {
   // Prepare room properties. Participants will start with
   // mics and cams off, and the room will expire in 24 hours.
   const req = {
@@ -59,13 +57,13 @@ async function createRoom(
   // Prepare headers, containing our Daily API key
   const headers = {
     Authorization: `Bearer ${apiKey}`,
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
 
   const url = `${dailyAPIUrl}/rooms/`;
   const data = JSON.stringify(req);
 
-  const roomErrMsg = "failed to create room";
+  const roomErrMsg = 'failed to create room';
 
   const res = await axios.post(url, data, { headers }).catch((error) => {
     console.error(roomErrMsg, res);
@@ -73,7 +71,7 @@ async function createRoom(
   });
 
   if (res.status !== 200 || !res.data) {
-    console.error("unexpected room creation response:", res);
+    console.error('unexpected room creation response:', res);
     throw new Error(roomErrMsg);
   }
   // Cast Daily's response to our room data interface.
