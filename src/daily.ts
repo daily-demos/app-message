@@ -62,9 +62,7 @@ function handleParticipantLeft(ev?: DailyEventObjectParticipantLeft) {
 function handleAppMessage(call: DailyCall, ev?: DailyEventObjectAppMessage) {
   if (!ev) return;
   const contentEle = <HTMLElement>document.getElementById('content');
-  const msg = getMsg(call.participants(), ev.data.recipient, ev.fromId);
-  const line = document.createElement('p');
-  line.innerText = msg;
+  const line = getMsg(call.participants(), ev.data.recipient, ev.fromId);
   contentEle.appendChild(line);
 }
 
@@ -73,7 +71,8 @@ function getMsg(
   participants: DailyParticipantsObject,
   recipient: string,
   fromId: string
-): string {
+): HTMLSpanElement {
+  const line = document.createElement('span');
   const date = new Date();
   const t = date.toLocaleTimeString();
   let msg = `[${t}] Hello, `;
@@ -96,7 +95,9 @@ function getMsg(
   msg += ` ${name}, from `;
   if (fromId === 'API') {
     msg += 'the server!';
+    line.classList.add('serverMsg');
   } else {
+    line.classList.add('clientMsg');
     const from = fromId;
     const p = participants[from];
     if (p?.user_name) {
@@ -105,8 +106,8 @@ function getMsg(
       msg += from;
     }
   }
-
-  return msg;
+  line.innerText = msg;
+  return line;
 }
 
 function handleJoinedMeeting(call: DailyCall, roomURL: string) {

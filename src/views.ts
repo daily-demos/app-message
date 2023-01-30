@@ -1,6 +1,9 @@
+import { toggleLobbyButtons } from './controls';
+
 const hiddenClassName = 'hidden';
 
 export function showLobby() {
+  toggleLobbyButtons(true);
   const lobby = getLobbyEle();
   const call = getCallEle();
   lobby.classList.remove(hiddenClassName);
@@ -8,6 +11,7 @@ export function showLobby() {
 }
 
 export function showCall() {
+  toggleLobbyButtons(false);
   const lobby = getLobbyEle();
   const call = getCallEle();
   lobby.classList.add(hiddenClassName);

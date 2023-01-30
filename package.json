@@ -8,7 +8,7 @@
     "lint": "eslint src/ netlify/",
     "fix": "eslint src/ netlify/ --fix",
     "test": "jest",
-    "dev": "build && sh ./dev.sh"
+    "dev": "npm run build && sh ./dev.sh"
   },
   "author": "",
   "license": "BSD-2-Clause",

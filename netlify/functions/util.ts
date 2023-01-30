@@ -3,4 +3,4 @@ const dailyAPIUrl = (): string => {
     ? 'https://api.staging.daily.co/v1'
     : 'https://api.daily.co/v1';
 };
-export default dailyAPIUrl;
+export default dailyAPIUrl();

@@ -14,28 +14,29 @@ import { showCall } from './views';
 window.addEventListener('DOMContentLoaded', () => {
   const usp = new URLSearchParams(window.location.search);
   const params = Object.fromEntries(usp.entries());
+  setupCallCreation();
 
   if (params.roomURL) {
     joinRoom(params.roomURL);
     showCall();
-    return;
   }
-
-  setupCallCreation();
 });
 
 function setupCallCreation() {
-  setupJoinRoomHander((url) => {
-    joinRoom(url);
-    showCall();
+  setupJoinRoomHander((roomURL) => {
+    goToJoin(roomURL);
   });
 
   setupCreateCallHandler(() => {
     createRoom().then((roomURL) => {
-      joinRoom(roomURL);
-      showCall();
+      goToJoin(roomURL);
     });
   });
+}
+
+function goToJoin(roomURL: string) {
+  const url = `${window.location.origin}?roomURL=${roomURL}`;
+  window.location.href = url;
 }
 
 async function createRoom(): Promise<string> {
@@ -45,8 +46,12 @@ async function createRoom(): Promise<string> {
     const res = await fetch(url);
     // Something went wrong
     if (res.status !== 200) {
-      const body = await res.text();
-      throw new Error(`${errMsg}. Status code: ${res.status}, body: ${body}`);
+      let msg = `${errMsg}. Status code: ${res.status}`;
+      if (res.bodyUsed) {
+        const body = await res.text();
+        msg += `; ${body}`;
+      }
+      throw new Error(msg);
     }
 
     // Return what we expect to be a token (additional validation to come)

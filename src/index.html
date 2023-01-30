@@ -5,7 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-   
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; frame-src 'self' https://*.daily.co; script-src 'self'; worker-src 'self';"
+    />
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
     <link rel="stylesheet" type="text/css" href="./css/header.css" />
 
@@ -63,10 +66,10 @@
             placeholder="Enter room URL..."
             required
           />
-          <button type="submit">Join existing room</button>
+          <button type="submit" id="joinRoomBtn">Join existing room</button>
         </form>
           or
-          <button type="submit" id="createRoomBtn">Create random room</button>
+          <button type="button" id="createRoomBtn">Create random room</button>
       </div>
       <div id="incall" class="hidden">
         <div id="callframe"></div>

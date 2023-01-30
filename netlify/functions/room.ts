@@ -31,6 +31,7 @@ const handler: Handler = async (_event, _context) => {
       body: roomURL,
     };
   } catch (e) {
+    console.error(e);
     return {
       statusCode: 500,
       body: String(e),
@@ -62,7 +63,7 @@ async function createRoom(apiKey: string): Promise<string> {
 
   const roomErrMsg = 'failed to create room';
   const res = await axios.post(url, data, { headers }).catch((error) => {
-    console.error(roomErrMsg, res);
+    console.error(roomErrMsg, error);
     throw new Error(`${roomErrMsg}: ${error})`);
   });
 

@@ -1,19 +1,32 @@
 export function setupCreateCallHandler(handler: Function) {
-  assignHandler('createRoomBtn', handler);
+  assignHandler('createRoomBtn', () => {
+    toggleLobbyButtons(false);
+    handler();
+  });
 }
 
 type JoinRoomHandlerFunc = (url: string) => void;
 
 export function setupJoinRoomHander(handler: JoinRoomHandlerFunc) {
-  const form = <HTMLButtonElement>document.getElementById('enterCall');
+  const form = <HTMLFormElement>document.getElementById('enterCall');
+
+  // Handler already registered, skip
+  if (form.onsubmit) return;
   form.onsubmit = (ev) => {
     ev.preventDefault();
-
+    toggleLobbyButtons(false);
     const roomURLEle = <HTMLInputElement>document.getElementById('roomURL');
     const url = roomURLEle.value;
 
     handler(url);
   };
+}
+
+export function toggleLobbyButtons(enabled: boolean) {
+  const joinBtn = getJoinRoomBtn();
+  const createBtn = getCreateRoomBtn();
+  joinBtn.disabled = !enabled;
+  createBtn.disabled = !enabled;
 }
 
 export function setupClientMsgHandler(handler: Function) {
@@ -73,8 +86,20 @@ function getParticipantSelectionEle(): HTMLSelectElement {
   return <HTMLSelectElement>document.getElementById('participants');
 }
 
+function getJoinRoomBtn(): HTMLButtonElement {
+  return <HTMLButtonElement>document.getElementById('joinRoomBtn');
+}
+
+function getCreateRoomBtn(): HTMLButtonElement {
+  return <HTMLButtonElement>document.getElementById('createRoomBtn');
+}
+
 function assignHandler(btnID: string, h: Function) {
   const btn = <HTMLButtonElement>document.getElementById(btnID);
+
+  // In this application, the handler should
+  // not be overwritten if it already exists.
+  if (btn.onclick) return;
   btn.onclick = (ev) => {
     ev.preventDefault();
     h();
