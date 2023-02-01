@@ -11,23 +11,6 @@ export function setupCreateCallHandler(handler: Function) {
   });
 }
 
-// setupJoinRoomHander() sets up the given handler to run
-// when the call join button is clicked in the lobby.
-export function setupJoinRoomHander(handler: RoomOutputHandlerFunc) {
-  const form = <HTMLFormElement>document.getElementById('enterCall');
-
-  // Handler already registered, skip
-  if (form.onsubmit) return;
-  form.onsubmit = (ev) => {
-    ev.preventDefault();
-    toggleLobbyButtons(false);
-    const roomURLEle = <HTMLInputElement>document.getElementById('roomURL');
-    const url = roomURLEle.value;
-
-    handler(url);
-  };
-}
-
 // setupClientMsgHandler() sets up the given handler to run
 // when a user clicks the button to send a client-side message.
 export function setupClientMsgHandler(handler: RoomOutputHandlerFunc) {
@@ -40,12 +23,10 @@ export function setupServerMsgHandler(handler: Function) {
   assignHandler('serverBtn', handler);
 }
 
-// toggleLobbyButtons() enables or disables the call create
-// and join buttons, as specified by the caller.
+// toggleLobbyButtons() enables or disables whatever buttons
+// are in the lobby view.
 export function toggleLobbyButtons(enabled: boolean) {
-  const joinBtn = getJoinRoomBtn();
   const createBtn = getCreateRoomBtn();
-  joinBtn.disabled = !enabled;
   createBtn.disabled = !enabled;
 }
 
@@ -74,6 +55,7 @@ export function addSelectableRecipient(name: string, id: string) {
 // message recipient dropdown. This is to support someone changing
 // or adding their name after they join the call.
 export function updateSelectableRecipient(name: string, id: string) {
+  if (name === '') return;
   const p = getParticipantSelectionEle();
   const allOptions = p.getElementsByTagName('option');
   for (let i = 0; i < allOptions.length; i += 1) {
@@ -135,10 +117,6 @@ function assignHandler(btnID: string, h: Function) {
 
 function getParticipantSelectionEle(): HTMLSelectElement {
   return <HTMLSelectElement>document.getElementById('participants');
-}
-
-function getJoinRoomBtn(): HTMLButtonElement {
-  return <HTMLButtonElement>document.getElementById('joinRoomBtn');
 }
 
 function getCreateRoomBtn(): HTMLButtonElement {

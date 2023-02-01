@@ -8,14 +8,18 @@ import './assets/favicon.ico';
 import './assets/github.png';
 import './assets/new-tab-icon.png';
 import { joinRoom } from './daily';
-import { setupCreateCallHandler, setupJoinRoomHander } from './controls';
+import { setupCreateCallHandler } from './controls';
 import { showCall } from './views';
 
 window.addEventListener('DOMContentLoaded', () => {
   // We set this up even if the user is joining a call,
   // because when they leave they'll be taken back to
   // the lobby to create one.
-  setupCallCreation();
+  setupCreateCallHandler(() => {
+    createRoom().then((roomURL) => {
+      goToJoin(roomURL);
+    });
+  });
 
   // Check if the query parameters contain a room URL
   // and join the call if so.
@@ -26,20 +30,6 @@ window.addEventListener('DOMContentLoaded', () => {
     showCall();
   }
 });
-
-// setupCallCreation() sets up the call join and creation
-// handlers.
-function setupCallCreation() {
-  setupJoinRoomHander((roomURL) => {
-    goToJoin(roomURL);
-  });
-
-  setupCreateCallHandler(() => {
-    createRoom().then((roomURL) => {
-      goToJoin(roomURL);
-    });
-  });
-}
 
 // goToJoin() redirects the user to this page with the
 // roomURL query parameter, which triggers a call join.
