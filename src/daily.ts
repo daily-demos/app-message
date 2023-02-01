@@ -4,7 +4,7 @@ import DailyIframe, {
   DailyEventObjectParticipant,
   DailyEventObjectParticipantLeft,
   DailyParticipantsObject,
-} from '@daily-co/daily-js';
+} from "@daily-co/daily-js";
 import {
   addSelectableRecipient,
   getSelectedRecipients as getSelectedRecipient,
@@ -14,37 +14,40 @@ import {
   setupClientMsgHandler,
   setupServerMsgHandler,
   updateSelectableRecipient,
-} from './controls';
-import { showLobby } from './views';
+} from "./controls";
+import { showLobby } from "./views";
 
 export function joinRoom(roomURL: string) {
-  const callContainer = <HTMLElement>document.getElementById('callframe');
+  const callContainer = <HTMLElement>document.getElementById("callframe");
   const callFrame = DailyIframe.createFrame(callContainer, {
     showLeaveButton: true,
   });
   callFrame
-    .on('joined-meeting', () => {
+    .on("joined-meeting", () => {
       handleJoinedMeeting(callFrame, roomURL);
     })
-    .on('left-meeting', () => {
+    .on("left-meeting", () => {
       handleLeftMeeting(callFrame);
     })
-    .on('app-message', (ev) => {
+    .on("app-message", (ev) => {
       handleAppMessage(callFrame, ev);
     })
-    .on('participant-joined', handleParticipantJoined)
-    .on('participant-left', handleParticipantLeft)
-    .on('participant-updated', handleParticipantUpdated)
-    .on('error', (ev) => {
-      console.error('Fatal error:', ev?.errorMsg);
+    .on("participant-joined", handleParticipantJoined)
+    .on("participant-left", handleParticipantLeft)
+    .on("participant-updated", handleParticipantUpdated)
+    .on("error", (ev) => {
+      console.error("Fatal error:", ev?.errorMsg);
     })
-    .on('nonfatal-error', (ev) => {
-      console.error('Nonfatal error:', ev?.errorMsg);
+    .on("nonfatal-error", (ev) => {
+      console.error("Nonfatal error:", ev?.errorMsg);
+    })
+    .on("camera-error", (ev) => {
+      console.error("Camera error:", ev);
     });
   try {
     callFrame.join({ url: roomURL });
   } catch (e) {
-    console.error('failed to join room', e);
+    console.error("failed to join room", e);
     showLobby();
   }
 }
@@ -63,7 +66,7 @@ function handleParticipantLeft(ev?: DailyEventObjectParticipantLeft) {
 
 function handleAppMessage(call: DailyCall, ev?: DailyEventObjectAppMessage) {
   if (!ev) return;
-  const contentEle = <HTMLElement>document.getElementById('content');
+  const contentEle = <HTMLElement>document.getElementById("content");
   const line = getMsg(call.participants(), ev.data.recipient, ev.fromId);
   contentEle.appendChild(line);
 }
@@ -74,7 +77,7 @@ function getMsg(
   recipient: string,
   fromId: string
 ): HTMLSpanElement {
-  const line = document.createElement('span');
+  const line = document.createElement("span");
   const date = new Date();
   const t = date.toLocaleTimeString();
   let msg = `[${t}] Hello, `;
@@ -82,8 +85,8 @@ function getMsg(
   // Customize message with the user's name or ID if it was sent
   // directly to them and not all participants.
   const recipientData = recipient;
-  let name = 'all';
-  if (recipientData !== '*') {
+  let name = "all";
+  if (recipientData !== "*") {
     const lp = participants.local;
     if (lp.user_name) {
       name = lp.user_name;
@@ -95,11 +98,11 @@ function getMsg(
   // Customize who the message was from based on whether it
   // came from another participant or the API.
   msg += ` ${name}, from `;
-  if (fromId === 'API') {
-    msg += 'the server!';
-    line.classList.add('serverMsg');
+  if (fromId === "API") {
+    msg += "the server!";
+    line.classList.add("serverMsg");
   } else {
-    line.classList.add('clientMsg');
+    line.classList.add("clientMsg");
     const from = fromId;
     const p = participants[from];
     if (p?.user_name) {
@@ -146,7 +149,7 @@ function handleParticipantUpdated(ev?: DailyEventObjectParticipant) {
 }
 
 function roomURLToName(url: string): string {
-  const idx = url.lastIndexOf('/');
+  const idx = url.lastIndexOf("/");
   return url.substr(idx + 1);
 }
 
