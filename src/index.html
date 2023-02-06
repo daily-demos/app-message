@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Daily Demo Boilerplate</title>
+    <title>Daily App Message Demo</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta
       http-equiv="Content-Security-Policy"
-    content="default-src 'self'; frame-src 'self' https://*.daily.co; script-src 'self'; worker-src 'self';"
+      content="default-src 'self'; frame-src 'self' https://*.daily.co https://app.netlify.com; script-src 'self' https://netlify-cdp-loader.netlify.app/netlify.js; worker-src 'self';"
     />
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
     <link rel="stylesheet" type="text/css" href="./css/header.css" />
@@ -24,7 +24,7 @@
               alt="Daily logo reads Daily"
             />
             <strong>
-              <p class="header-title">Daily demo</p>
+              <h1 class="header-title">Daily App Message Demo</h1>
             </strong>
           </div>
           <div class="right-header">
@@ -44,7 +44,7 @@
               </button>
             </a>
             <span class="divider"></span>
-            <a href="https://github.com/daily-demos/boilerplate-vanilla-js/" target="_blank">
+            <a href="https://github.com/daily-demos/app-message/" target="_blank">
               <img
                 class="octocat"
                 src="./assets/github.png"
@@ -57,7 +57,30 @@
         <noscript>
           This application requires JavaScript to run. Please enable JavaScript in your browser.
         </noscript>
-      <div id="container"></div>
+        <div id="container">
+      <div id="lobby">
+          <button type="button" id="createRoomBtn">Create room</button>
+      </div>
+      <div id="incall" class="hidden">
+        <div id="callframe"></div>
+        <div id="message">
+          <h2>Messages</h2>
+          <div id="content"></div>
+          <div id="recipient">
+            <label for="participants">Choose a participant:</label>
+            <select name="participants" id="participants">
+              <option value="*">All</option>
+            </select>
+          </div>
+          <button id="serverBtn" type="button">Broadcast from server</button>
+          <button id="clientBtn" type="button">Broadcast from client</button>
+          <p><sup><b>Note:</b> Broadcasting to "All" from a client will <em>not</em> broadcast to the sending participant!</sup></p>
+          <div id="invite">
+            Invite URL: <input id="inviteURL"></div>
+          </div>
+        </div>
+     </div>
+        </div>
       <script src="./bundle.js"></script>
 </body>
 </html>

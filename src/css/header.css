@@ -122,7 +122,7 @@ noscript {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 video {

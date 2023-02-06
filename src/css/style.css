@@ -1,0 +1,106 @@
+:root {
+  --grey-lightest: #f7f9fa;
+  --white: #ffffff;
+  --grey: #c8d1dc;
+  --dark-grey: #6b7785;
+  --dark-blue: #1f2d3d;
+  --dark-blue-border: #2b3f56;
+  --blue: #1f2d3d;
+  --green: #72cc18;
+  --green-dark: #62a60f;
+  --red-dark: #bb0c0c;
+  --cyan: #00c9df;
+  --orange: #feaa2c;
+  --font-family: "Helvetica Neue", Sans-Serif;
+}
+
+#container {
+  margin-top: 25px;
+  height: 100%;
+  width: 100%;
+}
+
+#callframe {
+  width: 60%;
+  height: 500px;
+}
+
+#lobby {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#content {
+  height: 200px;
+  overflow-y: scroll;
+}
+
+#incall {
+  display: flex;
+  flex-direction: row;
+  font-family: "Helvetica Neue", Sans-Serif;
+}
+
+#message {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 24px;
+}
+
+input {
+  width: 200px;
+  height: 24px;
+  padding: 4px 4px;
+  margin-bottom: 5px;
+  border-radius: 8px;
+  border: 1px solid var(--grey);
+  font-family: var(--font-family);
+}
+
+#container button {
+  padding: 8px 16px;
+  font-weight: bold;
+  background: var(--green);
+  border-radius: 8px;
+  border-width: 0px;
+  cursor: pointer;
+}
+
+#container button:hover {
+  background: var(--green-dark);
+}
+
+button#serverBtn:hover {
+  background: var(--orange);
+}
+
+button#clientBtn:hover {
+  background: var(--cyan);
+}
+
+#content span {
+  background-color: var(--blue);
+  animation: fadeIn 1s;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1px;
+}
+
+.clientMsg {
+  color: var(--cyan);
+}
+
+.serverMsg {
+  color: var(--orange);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
