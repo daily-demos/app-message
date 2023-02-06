@@ -25,6 +25,12 @@ The server-side POST request is instrumented through a [Netlify function](https:
 1. Paste your [Daily API key](https://dashboard.daily.co/developers) into the `DAILY_API_KEY` variable in the `.env` file. Do _not_ commit this file to source control!
 1. `npm i && npm run dev`
 
+## Example use cases for `"app-message"` events
+
+- [Adding chat to your custom video app](https://www.daily.co/blog/add-chat-to-your-custom-video-app-with-daily-react-hooks-part-3/)
+- [Implementing cursor sharing alongside a video call](https://www.daily.co/blog/implementing-cursor-sharing-with-dailys-video-call-api/)
+- [Adding spatialization features to your video application](https://www.daily.co/blog/setting-up-the-daily-call-in-our-spatialization-demo-part-2/#broadcasting-our-presence)
+
 ## Contributing and feedback
 
 Let us know how experimenting with this demo goes! Feel free to reach out to us any time at `help@daily.co`.
